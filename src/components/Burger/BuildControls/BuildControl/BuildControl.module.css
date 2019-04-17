@@ -2,10 +2,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 
 .BuildControl button {
+    display: block;
     font: inherit;
     padding: 5px;
     margin: 0 5px;
