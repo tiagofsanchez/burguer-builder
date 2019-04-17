@@ -13,15 +13,16 @@ const burger = (props) => {
                 return <BurgerIngredient key={igKey + i} type={igKey} /> ;
             })
         })
-        .reduce((arr,el) => {
+         .reduce((arr,el) => {
             return arr.concat(el)
         },[]);
-
+    
+    console.log(transformedIngredients);
+        
         if (transformedIngredients.length < 1) {
             transformedIngredients = <p>Please start to add Ingredients!!!</p>
         }
 
-    console.log(transformedIngredients)
 
     return (
         <div className={classes.Burger}>
