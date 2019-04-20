@@ -12,7 +12,7 @@ const controls = [
 
 const buildControls = (props) => {
 
-    const { addIngredient } = props;
+    const { addIngredient, deleteIngredient } = props;
 
     return (
         <div className={classes.BuildControls}>
@@ -20,7 +20,9 @@ const buildControls = (props) => {
                 <BuildControl
                     key={ctrl.label}
                     label={ctrl.label}
-                    addIngredient={()=>addIngredient(ctrl.type)} />
+                    addIngredient={()=>addIngredient(ctrl.type)} 
+                    deleteIngredient={()=>deleteIngredient(ctrl.type) }
+                    />
             ))}
         </div>
     )
