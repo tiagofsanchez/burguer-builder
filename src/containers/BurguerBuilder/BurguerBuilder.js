@@ -2,6 +2,7 @@ import React from 'react';
 import Aux from '../../hoc/Aux'
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -19,7 +20,22 @@ class BurgerBuilder extends React.Component {
             cheese: 0,
             meat: 0,
         },
-        totalPrice: 4
+        totalPrice: 4,
+        purchasable: false
+    }
+
+    updadtePurchasable = (ingredients) => {
+       
+        const sum = Object.keys(ingredients)
+            .map(ingKey => {
+                return ingredients[ingKey]
+            })
+            .reduce ((sum , el) => {
+                return sum + el
+            }, 0 )
+        
+        this.setState({purchasable: sum > 0})
+
     }
 
     addIngredientHandler = (type) => {
@@ -36,7 +52,9 @@ class BurgerBuilder extends React.Component {
             ingredients: updatedIngredients,
             totalPrice: newPrice,
         })
-        console.log(this.state.totalPrice);
+
+        this.updadtePurchasable(updatedIngredients);
+    
     }
 
     removeIngridientHandler = (type) => {
@@ -57,24 +75,33 @@ class BurgerBuilder extends React.Component {
             ingredients: updatedIngredients,
             totalPrice: newPrice
         })
+
+        this.updadtePurchasable(updatedIngredients);
     }
 
     render() {
-        const { ingredients } = this.state;
+        
+        const { ingredients , totalPrice , purchasable } = this.state;
+        
+        /* passa informacao para quando temos que disabled os botoes. em primeiro lugar copia e depois altera e passar essa informacao */
         const disableInfo = {
             ...ingredients
         }
         for (let key in disableInfo) {
             disableInfo[key] = disableInfo[key] <= 0
         }
+        
         return (
             <Aux>
+                <Modal/>
                 <Burger ingredients={ingredients} />
                 <BuildControls
                     addIngredient={this.addIngredientHandler}
                     deleteIngredient={this.removeIngridientHandler} 
                     disabled={disableInfo}
-    
+                    price={totalPrice}
+                    purchasable={!purchasable}
+                    upadtePurchasable={this.upadtePurchasable}
                     />
             </Aux>
         );
