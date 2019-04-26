@@ -22,20 +22,21 @@ class BurgerBuilder extends React.Component {
             meat: 0,
         },
         totalPrice: 4,
-        purchasable: false
+        purchasable: false,
+        purchasing: false,
     }
 
     updadtePurchasable = (ingredients) => {
-       
+
         const sum = Object.keys(ingredients)
             .map(ingKey => {
                 return ingredients[ingKey]
             })
-            .reduce ((sum , el) => {
+            .reduce((sum, el) => {
                 return sum + el
-            }, 0 )
-        
-        this.setState({purchasable: sum > 0})
+            }, 0)
+
+        this.setState({ purchasable: sum > 0 })
 
     }
 
@@ -55,7 +56,7 @@ class BurgerBuilder extends React.Component {
         })
 
         this.updadtePurchasable(updatedIngredients);
-    
+
     }
 
     removeIngridientHandler = (type) => {
@@ -80,10 +81,19 @@ class BurgerBuilder extends React.Component {
         this.updadtePurchasable(updatedIngredients);
     }
 
+    purchaseHandler = () => {
+        const { purchasing } = this.state;
+        this.setState({
+            purchasing: !purchasing
+        })
+    }
+
+
+
     render() {
-        
-        const { ingredients , totalPrice , purchasable } = this.state;
-        
+
+        const { ingredients, totalPrice, purchasable , purchasing } = this.state;
+
         /* passa informacao para quando temos que disabled os botoes. em primeiro lugar copia e depois altera e passar essa informacao */
         const disableInfo = {
             ...ingredients
@@ -91,21 +101,27 @@ class BurgerBuilder extends React.Component {
         for (let key in disableInfo) {
             disableInfo[key] = disableInfo[key] <= 0
         }
-        
+
+        let modal = null; 
+        if (purchasing) {
+            modal = (
+                <Modal>
+                    <OrderSummary ingredients={ingredients} />
+                </Modal>)
+        }
+
         return (
             <Aux>
-                <Modal> 
-                    <OrderSummary ingredients={ingredients}/>
-                </Modal>
+                {modal}
                 <Burger ingredients={ingredients} />
                 <BuildControls
                     addIngredient={this.addIngredientHandler}
-                    deleteIngredient={this.removeIngridientHandler} 
+                    deleteIngredient={this.removeIngridientHandler}
                     disabled={disableInfo}
                     price={totalPrice}
                     purchasable={!purchasable}
-                    upadtePurchasable={this.upadtePurchasable}
-                    />
+                    enableModal={this.purchaseHandler}
+                />
             </Aux>
         );
     }
