@@ -105,7 +105,7 @@ class BurgerBuilder extends React.Component {
         let modal = null; 
         if (purchasing) {
             modal = (
-                <Modal>
+                <Modal disableModel={this.purchaseHandler}>
                     <OrderSummary ingredients={ingredients} />
                 </Modal>)
         }
