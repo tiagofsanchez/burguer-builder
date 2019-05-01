@@ -5,6 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
+
 const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
@@ -88,11 +89,15 @@ class BurgerBuilder extends React.Component {
         })
     }
 
+    purchaseContinueHandler = () => {
+        alert('you are about to continue!');
+    }
+
 
 
     render() {
 
-        const { ingredients, totalPrice, purchasable , purchasing } = this.state;
+        const { ingredients, totalPrice, purchasable, purchasing } = this.state;
 
         /* passa informacao para quando temos que disabled os botoes. em primeiro lugar copia e depois altera e passar essa informacao */
         const disableInfo = {
@@ -102,11 +107,16 @@ class BurgerBuilder extends React.Component {
             disableInfo[key] = disableInfo[key] <= 0
         }
 
-        let modal = null; 
+        /* Will only show modal if I need. No animation */
+        let modal = null;
         if (purchasing) {
             modal = (
-                <Modal disableModel={this.purchaseHandler}>
-                    <OrderSummary ingredients={ingredients} />
+                <Modal disableModel={this.purchaseHandler} >
+                    <OrderSummary
+                        ingredients={ingredients}
+                        disableModel={this.purchaseHandler}
+                        continuePurchase={this.purchaseContinueHandler} 
+                        price={totalPrice}/>
                 </Modal>)
         }
 
