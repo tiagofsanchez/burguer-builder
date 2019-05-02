@@ -7,8 +7,7 @@ import Toolbar from '../Toolbar/Toolbar';
 
 const layout = (props) => (
     <Aux>
-        <Toolbar></Toolbar> 
-        <div>Toolbar, SideDrawer, Backdrop</div>
+        <Toolbar/>
         <main className ={classes.Content}>
             {props.children}
         </main>
