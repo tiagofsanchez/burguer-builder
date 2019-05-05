@@ -20,3 +20,11 @@
 .Logo { 
     height: 80%;
 }
+
+
+/* This media query says that you can't have a nav when the screen is lower than 499px */
+@media (max-width: 499px) {
+    .Toolbar nav {
+        display: none;
+    }
+}
