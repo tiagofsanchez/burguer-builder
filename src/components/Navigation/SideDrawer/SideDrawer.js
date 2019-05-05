@@ -6,10 +6,10 @@ import classes from './SideDrawer.module.css';
 
 const sideDrawer = (props) => { 
     
-    
+
     return (
         <div className = {classes.SideDrawer} >
-            <Logo/>
+            <Logo height="50px"/>
             <nav>
                 <NavigationItems/>
             </nav>
