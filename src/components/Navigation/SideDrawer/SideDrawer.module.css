@@ -9,7 +9,7 @@
     background-color: white; 
     padding: 20px 20px; 
     box-sizing: border-box; 
-    transition: transform 0.3s ease-out;
+    transition: transform 0.01s ease-out;
 
 }
 
@@ -18,8 +18,12 @@
     margin-bottom: 30px;
 }
 
+/* Sempre que o ecra for maior que 500 nao mostra .SideDrawer nem .Backdrop */
 @media (min-width: 500px) {
     .SideDrawer {
+        display: none;
+    }
+    .Backdrop {
         display: none;
     }
 }

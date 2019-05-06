@@ -9,6 +9,7 @@ import Aux from '../../../hoc/Aux';
 
 const sideDrawer = (props) => {
 
+    const { clicked } = props
     return (
         <Aux>
             <div className={classes.SideDrawer} >
@@ -19,7 +20,9 @@ const sideDrawer = (props) => {
                     <NavigationItems />
                 </nav>
             </div>
-            <Backdrop />
+            <div className={classes.Backdrop}>
+                <Backdrop clicked={clicked} />
+            </div>
         </Aux>
     );
 

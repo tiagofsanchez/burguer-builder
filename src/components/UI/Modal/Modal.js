@@ -6,11 +6,11 @@ import Aux from '../../../hoc/Aux';
 
 const modal = (props) => {
 
-    const { disableModel } = props;
+    const { disableModel } = props; 
     return (
         <div>
             <Aux>
-                <Backdrop disableModel={disableModel} />
+                <Backdrop clicked={disableModel} />
                 <div className={classes.Modal}>
                     {props.children}
                 </div>
