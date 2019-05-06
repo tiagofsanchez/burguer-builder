@@ -9,7 +9,7 @@ import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 
 class Layout extends React.Component {
     state = { 
-        showSideDrawer: true
+        showSideDrawer: false
     }
     
     SideDrawerClosedHandler = () => {
@@ -33,7 +33,10 @@ class Layout extends React.Component {
         if (showSideDrawer) {
             sideDrawer = (
             <Aux>
-                <SideDrawer clicked={this.SideDrawerClosedHandler}/>
+                <SideDrawer  
+                    close={this.SideDrawerClosedHandler}
+                    open={showSideDrawer}
+                    />
             </Aux>
             )
         }
