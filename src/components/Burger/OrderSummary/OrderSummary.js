@@ -3,6 +3,7 @@ import React from 'react';
 import Aux from '../../../hoc/Aux';
 import Button from '../../UI/Button/Button'
 
+
 const orderSummary = (props) => { 
 
     const { ingredients , disableModel , continuePurchase , price } = props;
@@ -26,5 +27,6 @@ const orderSummary = (props) => {
         </Aux>
     );
 }
+
 
 export default orderSummary;
