@@ -19,8 +19,8 @@ class Layout extends React.Component {
     } 
 
     SideDrawerOpenHandler = () => {
-        this.setState ({
-            showSideDrawer: !this.state.showSideDrawer
+        this.setState ((prevState) => {
+            return ({showSideDrawer: !prevState.showSideDrawer})
         })
     }
     
