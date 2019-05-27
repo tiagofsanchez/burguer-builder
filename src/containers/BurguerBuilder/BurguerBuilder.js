@@ -22,16 +22,22 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends React.Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0,
-        },
+        ingredients: null,
         totalPrice: 4,
         purchasable: false,
         purchasing: false,
         loadingOrder: false,
+        error: false, 
+    }
+
+    componentDidMount () { 
+        axios.get('https://react-my-burger-c9843.firebaseio.com/ingredients.json')
+            .then (resp => {
+                this.setState({ingredients: resp.data})
+            })
+            .catch(error => {
+                this.setState({error: true })
+            })  
     }
 
     updadtePurchasable = (ingredients) => {
@@ -117,7 +123,7 @@ class BurgerBuilder extends React.Component {
             deliveryMethod: 'fastest'
         }
         
-        axios.post('/orders.jso' , order)
+        axios.post('/orders.json' , order)
             .then (response => {
                 this.setState({loadingOrder: false , purchasing: false})})
             .catch (error => {
@@ -158,18 +164,26 @@ class BurgerBuilder extends React.Component {
                 </Modal>)
         }
 
+        let burger = this.state.error ? <p>ingredients can't be loaded</p> : <Spinner/>; 
+        if (ingredients) {
+            burger = 
+            <Aux>
+            <Burger ingredients={ingredients} />
+            <BuildControls
+                addIngredient={this.addIngredientHandler}
+                deleteIngredient={this.removeIngridientHandler}
+                disabled={disableInfo}
+                price={totalPrice}
+                purchasable={!purchasable}
+                enableModal={this.purchaseHandler}
+            />
+            </Aux>
+        }
+
         return (
             <Aux>
                 {modal}
-                <Burger ingredients={ingredients} />
-                <BuildControls
-                    addIngredient={this.addIngredientHandler}
-                    deleteIngredient={this.removeIngridientHandler}
-                    disabled={disableInfo}
-                    price={totalPrice}
-                    purchasable={!purchasable}
-                    enableModal={this.purchaseHandler}
-                />
+                {burger}
             </Aux>
         );
     }
