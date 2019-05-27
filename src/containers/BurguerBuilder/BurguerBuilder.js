@@ -100,6 +100,7 @@ class BurgerBuilder extends React.Component {
         //On a reall app we should recalculate the price on the server as this will be safer and the user couldn't manipulate the price
         
         this.setState({loadingOrder: true})
+        
         const order = {
             ingredients: this.state.ingredients,
             price: this.state.totalPrice,
@@ -114,6 +115,7 @@ class BurgerBuilder extends React.Component {
             },
             deliveryMethod: 'fastest'
         }
+        
         axios.post('/orders.json' , order)
             .then (response => {
                 this.setState({loadingOrder: false , purchasing: false})})

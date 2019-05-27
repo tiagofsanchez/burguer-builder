@@ -31,6 +31,7 @@ class OrderSummary extends React.Component {
                 <p>Continue to CheckOut!</p>
                 <Button btnType="Danger" clicked={disableModel}>CANCEL</Button>
                 <Button btnType="Success" clicked={continuePurchase} >PROCEED</Button>
+        
             </Aux>
         );
     }
