@@ -7,6 +7,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 
 
@@ -116,10 +117,11 @@ class BurgerBuilder extends React.Component {
             deliveryMethod: 'fastest'
         }
         
-        axios.post('/orders.json' , order)
+        axios.post('/orders.jso' , order)
             .then (response => {
                 this.setState({loadingOrder: false , purchasing: false})})
-            .catch (error => {this.setState({loadingOrder: false , purchasing: false})});   
+            .catch (error => {
+                this.setState({loadingOrder: false , purchasing: false})});   
     }
 
 
@@ -173,4 +175,4 @@ class BurgerBuilder extends React.Component {
     }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder , axios);
