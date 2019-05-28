@@ -31,6 +31,7 @@ class BurgerBuilder extends React.Component {
     }
 
     componentDidMount () { 
+        console.log(this.props)
         axios.get('https://react-my-burger-c9843.firebaseio.com/ingredients.json')
             .then (resp => {
                 this.setState({ingredients: resp.data})
@@ -106,7 +107,9 @@ class BurgerBuilder extends React.Component {
         //alert('you are about to continue!');
         //On a reall app we should recalculate the price on the server as this will be safer and the user couldn't manipulate the price
         
-        this.setState({loadingOrder: true})
+
+        // not yet storing in Firebase... sending that information on to the CheckOut page before so I have comment that out 
+        /* this.setState({loadingOrder: true})
         
         const order = {
             ingredients: this.state.ingredients,
@@ -127,7 +130,8 @@ class BurgerBuilder extends React.Component {
             .then (response => {
                 this.setState({loadingOrder: false , purchasing: false})})
             .catch (error => {
-                this.setState({loadingOrder: false , purchasing: false})});   
+                this.setState({loadingOrder: false , purchasing: false})}) */
+        this.props.history.push('/checkout'); 
     }
 
 
