@@ -143,8 +143,6 @@ class BurgerBuilder extends React.Component {
             pathname: '/checkout',
             search: '?' + queryString,
         }); 
-        console.log(queryParams);
-        console.log(queryString);
     }
 
 
