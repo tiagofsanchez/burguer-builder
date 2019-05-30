@@ -109,28 +109,7 @@ class BurgerBuilder extends React.Component {
         
 
         // not yet storing in Firebase... sending that information on to the CheckOut page before so I have comment that out 
-        /* this.setState({loadingOrder: true})
-        
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: { 
-                name: "Tiago Sanchez",
-                address: { 
-                    street: 'you wish', 
-                    zipCode: '413151',
-                    country: 'Germany'
-                }, 
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
-        }
-        
-        axios.post('/orders.json' , order)
-            .then (response => {
-                this.setState({loadingOrder: false , purchasing: false})})
-            .catch (error => {
-                this.setState({loadingOrder: false , purchasing: false})}) */
+        //This is now in ContactData component
         
         
         // Ineed to do the for here, because I will need to go through and object instead of an array        
@@ -138,11 +117,14 @@ class BurgerBuilder extends React.Component {
         for (let i in this.state.ingredients) {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
+        queryParams.push('price=' + this.state.totalPrice)
         const queryString = queryParams.join('&')         
         this.props.history.push({
             pathname: '/checkout',
             search: '?' + queryString,
         }); 
+        console.log(queryParams);
+        console.log(queryString);
     }
 
 
