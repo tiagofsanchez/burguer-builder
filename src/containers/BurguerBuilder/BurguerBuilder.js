@@ -131,7 +131,20 @@ class BurgerBuilder extends React.Component {
                 this.setState({loadingOrder: false , purchasing: false})})
             .catch (error => {
                 this.setState({loadingOrder: false , purchasing: false})}) */
-        this.props.history.push('/checkout'); 
+        
+        
+        // Ineed to do the for here, because I will need to go through and object instead of an array        
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+        }
+        const queryString = queryParams.join('&')         
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString,
+        }); 
+        console.log(queryParams);
+        console.log(queryString);
     }
 
 

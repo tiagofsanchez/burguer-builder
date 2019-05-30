@@ -6,7 +6,7 @@ import classes from './CheckOutSummary.module.css';
 
 const checkOutSummary = (props) => {
 
-    const { ingredients } = props;
+    const { ingredients , onCheckoutCancelled , onCheckoutContinued } = props;
 
     return (
         <div className={classes.CheckOutSummary}>
@@ -17,10 +17,10 @@ const checkOutSummary = (props) => {
             <div>
                 <Button
                     btnType="Danger"
-                    clicked>CANCEL</Button>
+                    clicked={onCheckoutCancelled}>CANCEL</Button>
                 <Button
                     btnType="Success"
-                    clicked>CONTIUNE</Button>
+                    clicked={onCheckoutContinued}>CONTIUNE</Button>
             </div>
         </div>
 
