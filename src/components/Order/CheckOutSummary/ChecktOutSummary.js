@@ -20,7 +20,7 @@ const checkOutSummary = (props) => {
                     clicked={onCheckoutCancelled}>CANCEL</Button>
                 <Button
                     btnType="Success"
-                    clicked={onCheckoutContinued}>CONTIUNE</Button>
+                    clicked={onCheckoutContinued}>CONTINUE</Button>
             </div>
         </div>
 
