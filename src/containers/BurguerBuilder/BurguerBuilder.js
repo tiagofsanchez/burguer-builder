@@ -125,6 +125,7 @@ class BurgerBuilder extends React.Component {
         }); 
         console.log(queryParams);
         console.log(queryString);
+        console.log(this.props);
     }
 
 

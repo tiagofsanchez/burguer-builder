@@ -7,22 +7,17 @@ import ContactData from './ContactData/ContactData';
 class CheckOut extends React.Component { 
 
     state ={
-        ingredients: {
-            salad: 1,
-            meat: 1, 
-            cheese: 1, 
-            bacon: 1
-        },
+        ingredients: null,
         totalPrice: 0
     }
     
     //here I will get the information that pass into the URL so that I can use it here in the state of my componet
-    componentDidMount () {
+    componentWillMount () {
         
         const query = new URLSearchParams(this.props.location.search);
         const ingredients = {};
         let price = 0;
-        for ( let p of query ) {
+        for ( let p of query.entries() ) {
             if(p[0] === 'price') {
                 price = p[1]
             } else {
@@ -34,7 +29,6 @@ class CheckOut extends React.Component {
             ingredients: ingredients,
             totalPrice: price
         })
-        console.log(query);
         console.log(ingredients);
         console.log(price)
         
@@ -52,7 +46,7 @@ class CheckOut extends React.Component {
     //here this will be super important for 
     render () { 
         
-        const { ingredients } = this.state;
+        const { ingredients , totalPrice } = this.state;
         
         return (
             <div>
@@ -62,7 +56,7 @@ class CheckOut extends React.Component {
                     onCheckoutContinued={this.checkoutContinuedHandler}/>
                 <Route
                     path={this.props.match.path + '/contact-data'}
-                    render={()=><ContactData ingredients={ingredients}/>} />
+                    render={(props)=><ContactData ingredients={ingredients} price={totalPrice} {...props}/>} />
             </div>
         )
     }
