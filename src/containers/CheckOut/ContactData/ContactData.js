@@ -5,6 +5,7 @@ import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import mystyle from './ContactData.module.css';
 import axios from '../../../axios-orders';
+import Input from '../../../components/UI/Forms/Input/Input'
 
 class ContactData extends React.Component {
 
@@ -62,10 +63,10 @@ class ContactData extends React.Component {
         const { loading } = this.state;
 
         let form = (<form>
-            <input className={mystyle.Input} type='text' name='name' placeholder='Your Name'></input>
-            <input className={mystyle.Input} type='text' name='email' placeholder='Your Mail'></input>
-            <input className={mystyle.Input} type='text' name='street' placeholder='Street'></input>
-            <input className={mystyle.Input} type='text' name='postalCode' placeholder='Postal Code'></input>
+            <Input inputtype='input' type='text' name='name' placeholder='Your Name'></Input>
+            <Input inputtype='input' type='text' name='email' placeholder='Your Mail'></Input>
+            <Input inputtype='input' type='text' name='street' placeholder='Street'></Input>
+            <Input inputtype='input' type='text' name='postalCode' placeholder='Postal Code'></Input>
             <Button btnType='Success' clicked={this.orderHandler} >ORDER</Button>
         </form>)
         if ( loading ) {
