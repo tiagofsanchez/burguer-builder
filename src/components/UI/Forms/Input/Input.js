@@ -4,10 +4,13 @@ import classes from './Input.module.css';
 
 const input = (props) => {
 
-    const { label, elementType, value, elementConfig , changed } = props;
+    const { label, elementType, value, elementConfig , changed , invalid , shouldValidate , touched } = props;
 
     let inputElement = null;
     const inputClasses = [classes.InputElement];
+    if (invalid && shouldValidate && touched) { 
+        inputClasses.push(classes.Invalid)
+    }
 
     switch (elementType) {
         case ('input'):

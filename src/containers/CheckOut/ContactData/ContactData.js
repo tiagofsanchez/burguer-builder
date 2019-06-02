@@ -22,6 +22,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
+                touched: false,
             },
             street: {
                 elementType: 'input',
@@ -34,6 +35,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
+                touched: false,
             },
             zipCode: {
                 elementType: 'input',
@@ -49,6 +51,7 @@ class ContactData extends React.Component {
 
                 },
                 valid: false,
+                touched: false,
             },
             country: {
                 elementType: 'input',
@@ -61,6 +64,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
+                touched: false,
             },
             email: {
                 elementType: 'input',
@@ -73,6 +77,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
+                touched: false,
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -149,6 +154,7 @@ class ContactData extends React.Component {
         }
         updatedOrderElements.value = event.target.value;
         updatedOrderElements.valid = this.checkValidity( updatedOrderElements.value , updatedOrderElements.validation);
+        updatedOrderElements.touched= true;
         updatedOrderForm[elementIdentifier] = updatedOrderElements;
         
         this.setState({
@@ -163,7 +169,8 @@ class ContactData extends React.Component {
 
         const { loading, orderForm } = this.state;
 
-        //Looping through the state to create a dymanic form, that I can create somehting very easily for next projects
+        //Looping through the state to create a dymanic form, that I can create somehting very easily for next projects.
+        //this needs to be an array so that we can loop through using .map(); and array of objects
         const formElementsArray = [];
         for (let key in orderForm) {
             formElementsArray.push({
@@ -176,6 +183,9 @@ class ContactData extends React.Component {
             {formElementsArray.map(formElement => (
                 <Input
                     key={formElement.id}
+                    invalid={!formElement.config.valid}
+                    touched={formElement.config.touched}
+                    shouldValidate={formElement.config.validation}
                     elementType={formElement.config.elementType}
                     elementConfig={formElement.config.elementConfig}
                     value={formElement.config.value} 
