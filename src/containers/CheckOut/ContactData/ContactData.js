@@ -86,10 +86,13 @@ class ContactData extends React.Component {
                         [{ value: 'fastest', displayValue: 'Fastest' },
                         { value: 'cheapest', displayValue: 'Cheapest' }]
                 },
-                value: ''
+                value: '',
+                valid:true,
+                validation: {} //this object exists for the validation to run properly!
             },
         },
         loading: false,
+        formisValid: false,
     }
 
     //event object is here not to reload the form as expected.
@@ -157,17 +160,28 @@ class ContactData extends React.Component {
         updatedOrderElements.touched= true;
         updatedOrderForm[elementIdentifier] = updatedOrderElements;
         
+        //takes care of the validity of the form and changes the style of the botton
+        let checkIfFormValidy = true; 
+        for (let el in updatedOrderForm) {
+            checkIfFormValidy = updatedOrderForm[el].valid && checkIfFormValidy
+
+        }
+
         this.setState({
-            orderForm: updatedOrderForm
+            orderForm: updatedOrderForm,
+            formisValid: checkIfFormValidy
         })
         
         console.log(updatedOrderForm)
         console.log(updatedOrderElements)
+        console.log(checkIfFormValidy)
+        console.log(this.state.formisValid)
+
     }
 
     render() {
 
-        const { loading, orderForm } = this.state;
+        const { loading, orderForm , formisValid } = this.state;
 
         //Looping through the state to create a dymanic form, that I can create somehting very easily for next projects.
         //this needs to be an array so that we can loop through using .map(); and array of objects
@@ -191,7 +205,7 @@ class ContactData extends React.Component {
                     value={formElement.config.value} 
                     changed={(event) => this.inputChangedHandler(event , formElement.id )}/>
             ))}
-            <Button btnType='Success' >ORDER</Button>
+            <Button btnType='Success' disabled={!formisValid}>ORDER</Button>
         </form>)
         if (loading) {
             form = <Spinner />
