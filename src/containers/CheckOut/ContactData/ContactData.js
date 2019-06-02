@@ -10,11 +10,56 @@ import Input from '../../../components/UI/Forms/Input/Input'
 class ContactData extends React.Component {
 
     state = {
-        name: '',
-        email: '',
-        address: {
-            street: '',
-            postalCode: '',
+        orderForm: {
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name'
+                },
+                value: ''
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: ''
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'ZIP Code'
+                },
+                value: ''
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Country'
+                },
+                value: ''
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your E-Mail'
+                },
+                value: ''
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options:
+                        [{ value: 'fastest', displayValue: 'Fastest' },
+                        { value: 'cheapest', displayValue: 'Cheapest' }]
+                },
+                value: ''
+            },
         },
         loading: false,
     }
@@ -23,8 +68,8 @@ class ContactData extends React.Component {
 
     //event object is here not to reload the form as expected.
     orderHandler = (event) => {
-        
-        const { ingredients , price } = this.props;         
+
+        const { ingredients, price } = this.props;
         console.log(price);
 
         event.preventDefault();
@@ -33,16 +78,6 @@ class ContactData extends React.Component {
         const order = {
             ingredients: ingredients,
             price: price,
-            customer: {
-                name: "Tiago Sanchez",
-                address: {
-                    street: 'you wish',
-                    zipCode: '413151',
-                    country: 'Germany'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
         }
 
         axios.post('/orders.json', order)
@@ -57,26 +92,37 @@ class ContactData extends React.Component {
 
 
 
-
     render() {
 
-        const { loading } = this.state;
+        const { loading, orderForm } = this.state;
 
+        const formElementsArray = [];
+        for (let key in orderForm) {
+            formElementsArray.push({
+                id: key,
+                config: orderForm[key]
+            })
+        }
+
+        console.log(formElementsArray);
         let form = (<form>
-            <Input inputtype='input' type='text' name='name' placeholder='Your Name'></Input>
-            <Input inputtype='input' type='text' name='email' placeholder='Your Mail'></Input>
-            <Input inputtype='input' type='text' name='street' placeholder='Street'></Input>
-            <Input inputtype='input' type='text' name='postalCode' placeholder='Postal Code'></Input>
+            {formElementsArray.map(formElement => (
+                <Input
+                    key={formElement.id}
+                    elementType={formElement.id}
+                    elementConfig={formElement.config}
+                    value={formElement.config.value} />
+            ))}
             <Button btnType='Success' clicked={this.orderHandler} >ORDER</Button>
         </form>)
-        if ( loading ) {
-            form = <Spinner /> 
+        if (loading) {
+            form = <Spinner />
         }
-         
+
         return (
             <div className={mystyle.ContactData}>
                 <h4>Enter your Contact Data</h4>
-                {form}     
+                {form}
             </div>
         )
     }

@@ -4,7 +4,7 @@ import mysytle from './Order.module.css';
 
 const order = (props) => {
 
-    const { ingredients, price , keyToPass } = props;
+    const { ingredients, price } = props;
     //will transform the object into an array... there are multiple ways of doing that. 
     //One way is in the Burger component 
     //Another one will be here for us to work with
