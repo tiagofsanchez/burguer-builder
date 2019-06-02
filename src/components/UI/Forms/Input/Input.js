@@ -4,7 +4,7 @@ import classes from './Input.module.css';
 
 const input = (props) => {
 
-    const { label, elementType, value , elementConfig} = props;
+    const { label, elementType, value, elementConfig , changed } = props;
 
     let inputElement = null;
     switch (elementType) {
@@ -12,19 +12,35 @@ const input = (props) => {
             inputElement = <input
                 className={classes.InputElement}
                 {...elementConfig}
-                value={value} />;
+                value={value} 
+                onChange={changed}/>;
             break;
         case ('textarea'):
             inputElement = <textarea
                 className={classes.InputElement}
                 {...elementConfig}
-                value={value} />;
+                value={value} 
+                onChange={changed}/>;
+            break;
+        case ('select'):
+            inputElement = (
+            <select
+                className={classes.InputElement}
+                value={value}
+                onChange={changed}>
+                {elementConfig.options.map (option => (
+                    <option key={option.value} value={option.value}>
+                        {option.displayValue}
+                    </option>
+                ))}
+                </select>);
             break;
         default:
             inputElement = <input
                 className={classes.InputElement}
                 {...elementConfig}
-                value={value} />;
+                value={value} 
+                onChange={changed}/>;
     }
 
     return (
