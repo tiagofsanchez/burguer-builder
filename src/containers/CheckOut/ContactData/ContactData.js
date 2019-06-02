@@ -17,7 +17,11 @@ class ContactData extends React.Component {
                     type: 'text',
                     placeholder: 'Your Name'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
             },
             street: {
                 elementType: 'input',
@@ -25,7 +29,11 @@ class ContactData extends React.Component {
                     type: 'text',
                     placeholder: 'Street'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
             },
             zipCode: {
                 elementType: 'input',
@@ -33,7 +41,14 @@ class ContactData extends React.Component {
                     type: 'text',
                     placeholder: 'ZIP Code'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 5, 
+
+                },
+                valid: false,
             },
             country: {
                 elementType: 'input',
@@ -41,7 +56,11 @@ class ContactData extends React.Component {
                     type: 'text',
                     placeholder: 'Country'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
             },
             email: {
                 elementType: 'input',
@@ -49,7 +68,11 @@ class ContactData extends React.Component {
                     type: 'text',
                     placeholder: 'Your E-Mail'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -64,22 +87,27 @@ class ContactData extends React.Component {
         loading: false,
     }
 
-
-
     //event object is here not to reload the form as expected.
     orderHandler = (event) => {
-
+        
         const { ingredients, price } = this.props;
-        console.log(price);
+        const { orderForm } = this.state;
 
+        console.log(price);
         event.preventDefault();
         this.setState({ loading: true })
+        
+        const formData = {};
+        for (let id in orderForm ) { 
+            formData[id]= orderForm[id].value
+        }
+        console.log(formData)
 
         const order = {
             ingredients: ingredients,
             price: price,
+            orderData: formData
         }
-
         axios.post('/orders.json', order)
             .then(response => {
                 this.setState({ loading: false })
@@ -90,7 +118,28 @@ class ContactData extends React.Component {
             })
     }
 
+   
+    checkValidity (value, rules) {
+        let isValid = true;
+        
+        if (rules.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
 
+        if(rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid;
+        }
+
+        if(rules.maxLength) { 
+            isValid = value.length <= rules.maxLength && isValid;
+        }
+
+        return isValid;
+    }
+
+
+    //(1) copia o estado (2) copia o objecto abaixo (3) altera essa copia do objecto e muda o estado da componente
+    //All of this to do the change of the state in a immutable way
     inputChangedHandler = (event, elementIdentifier) => {
         const updatedOrderForm = {
             ...this.state.orderForm
@@ -99,6 +148,7 @@ class ContactData extends React.Component {
             ...updatedOrderForm[elementIdentifier]
         }
         updatedOrderElements.value = event.target.value;
+        updatedOrderElements.valid = this.checkValidity( updatedOrderElements.value , updatedOrderElements.validation);
         updatedOrderForm[elementIdentifier] = updatedOrderElements;
         
         this.setState({
@@ -109,11 +159,11 @@ class ContactData extends React.Component {
         console.log(updatedOrderElements)
     }
 
-
     render() {
 
         const { loading, orderForm } = this.state;
 
+        //Looping through the state to create a dymanic form, that I can create somehting very easily for next projects
         const formElementsArray = [];
         for (let key in orderForm) {
             formElementsArray.push({
@@ -122,8 +172,7 @@ class ContactData extends React.Component {
             })
         }
 
-        console.log(formElementsArray);
-        let form = (<form>
+        let form = (<form onSubmit={this.orderHandler}>
             {formElementsArray.map(formElement => (
                 <Input
                     key={formElement.id}
@@ -132,7 +181,7 @@ class ContactData extends React.Component {
                     value={formElement.config.value} 
                     changed={(event) => this.inputChangedHandler(event , formElement.id )}/>
             ))}
-            <Button btnType='Success' clicked={this.orderHandler} >ORDER</Button>
+            <Button btnType='Success' >ORDER</Button>
         </form>)
         if (loading) {
             form = <Spinner />

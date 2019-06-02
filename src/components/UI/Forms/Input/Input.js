@@ -7,17 +7,19 @@ const input = (props) => {
     const { label, elementType, value, elementConfig , changed } = props;
 
     let inputElement = null;
+    const inputClasses = [classes.InputElement];
+
     switch (elementType) {
         case ('input'):
             inputElement = <input
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
                 {...elementConfig}
                 value={value} 
                 onChange={changed}/>;
             break;
         case ('textarea'):
             inputElement = <textarea
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
                 {...elementConfig}
                 value={value} 
                 onChange={changed}/>;
@@ -25,7 +27,7 @@ const input = (props) => {
         case ('select'):
             inputElement = (
             <select
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
                 value={value}
                 onChange={changed}>
                 {elementConfig.options.map (option => (
@@ -37,7 +39,7 @@ const input = (props) => {
             break;
         default:
             inputElement = <input
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
                 {...elementConfig}
                 value={value} 
                 onChange={changed}/>;
