@@ -4,35 +4,10 @@ import CheckOutSummary from '../../components/Order/CheckOutSummary/ChecktOutSum
 import { Route } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 
+import { connect } from 'react-redux';
+
 class CheckOut extends React.Component { 
 
-    state ={
-        ingredients: null,
-        totalPrice: 0
-    }
-    
-    //here I will get the information that pass into the URL so that I can use it here in the state of my componet
-    componentWillMount () {
-        
-        const query = new URLSearchParams(this.props.location.search);
-        const ingredients = {};
-        let price = 0;
-        for ( let p of query.entries() ) {
-            if(p[0] === 'price') {
-                price = p[1]
-            } else {
-                ingredients[p[0]] = +p[1];
-            }
-            
-        }
-        this.setState({
-            ingredients: ingredients,
-            totalPrice: price
-        })
-        console.log(ingredients);
-        console.log(price)
-        
-    }
     
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
@@ -46,20 +21,26 @@ class CheckOut extends React.Component {
     //here this will be super important for 
     render () { 
         
-        const { ingredients , totalPrice } = this.state;
+        const { ings } = this.props;
         
         return (
             <div>
                 <CheckOutSummary 
-                    ingredients={ingredients}
+                    ingredients={ings}
                     onCheckoutCancelled={this.checkoutCancelledHandler}
                     onCheckoutContinued={this.checkoutContinuedHandler}/>
                 <Route
                     path={this.props.match.path + '/contact-data'}
-                    render={(props)=><ContactData ingredients={ingredients} price={totalPrice} {...props}/>} />
+                    component={ContactData}/>
             </div>
         )
     }
 }
 
-export default CheckOut;
+const mapStateToProps = state => { 
+    return {
+        ings: state.ingredients,
+    };
+};
+
+export default connect(mapStateToProps)(CheckOut);

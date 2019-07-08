@@ -7,6 +7,8 @@ import mystyle from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Forms/Input/Input'
 
+import { connect } from 'react-redux';
+
 class ContactData extends React.Component {
 
     state = {
@@ -98,10 +100,10 @@ class ContactData extends React.Component {
     //event object is here not to reload the form as expected.
     orderHandler = (event) => {
         
-        const { ingredients, price } = this.props;
+        const { ings, tPrice } = this.props;
         const { orderForm } = this.state;
 
-        console.log(price);
+        console.log(tPrice);
         event.preventDefault();
         this.setState({ loading: true })
         
@@ -112,8 +114,8 @@ class ContactData extends React.Component {
         console.log(formData)
 
         const order = {
-            ingredients: ingredients,
-            price: price,
+            ingredients: ings,
+            price: tPrice,
             orderData: formData
         }
         axios.post('/orders.json', order)
@@ -220,4 +222,11 @@ class ContactData extends React.Component {
     }
 }
 
-export default ContactData; 
+const mapStateToProps = state => { 
+    return { 
+        ings: state.ingredients,
+        tPrice: state.totalPrice,
+    };
+};
+
+export default connect(mapStateToProps)(ContactData); 

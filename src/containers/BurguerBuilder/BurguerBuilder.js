@@ -16,7 +16,6 @@ import * as actionTypes from '../../store/actions';
 class BurgerBuilder extends React.Component {
 
     state = {
-        purchasable: false,
         purchasing: false,
         loadingOrder: false,
         error: false, 
@@ -44,7 +43,7 @@ class BurgerBuilder extends React.Component {
                 return sum + el
             }, 0)
 
-        this.setState({ purchasable: sum > 0 })
+        return sum>0;
 
     }
     
@@ -55,29 +54,10 @@ class BurgerBuilder extends React.Component {
         })
     }
 
-    purchaseContinueHandler = () => {
-        //alert('you are about to continue!');
-        //On a reall app we should recalculate the price on the server as this will be safer and the user couldn't manipulate the price
-        
-
-        // not yet storing in Firebase... sending that information on to the CheckOut page before so I have comment that out 
-        //This is now in ContactData component
-        
-        
-        // I need to do the for here, because I will need to go through and object instead of an array        
-        const queryParams = [];
-        for (let i in this.state.ingredients) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
-        }
-        queryParams.push('price=' + this.state.totalPrice)
-        const queryString = queryParams.join('&')         
-        this.props.history.push({
-            pathname: '/checkout',
-            search: '?' + queryString,
-        }); 
-        console.log(queryParams);
-        console.log(queryString);
-        console.log(this.props);
+   
+    //This is such a bit advantage not needing this to happen anymore
+    purchaseContinueHandler = () => {        
+        this.props.history.push('/checkout'); 
     }
 
 
@@ -125,7 +105,7 @@ class BurgerBuilder extends React.Component {
                 deleteIngredient={onIngredientRemoved}
                 disabled={disableInfo}
                 price={tPrice}
-                purchasable={!purchasable}
+                purchasable={!this.updadtePurchasable(ings)}
                 enableModal={this.purchaseHandler}
             />
             </Aux>
