@@ -15,7 +15,7 @@ import * as serviceWorker from './serviceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 
-const store = createStore(burguerBuilder ,composeEnhancers(applyMiddleware( thunk)));
+const store = createStore(burguerBuilder ,composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
     <Provider store={store}>
