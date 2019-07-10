@@ -4,4 +4,6 @@ export {
     iniIngridients
 } from './burguerBuilder';
 
-export {} from './order';
+export {
+    purchaseBurguerStarter
+} from './order';

@@ -4,8 +4,10 @@ import React from 'react';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import mystyle from './ContactData.module.css';
-import axios from '../../../axios-orders';
+import axios from '../../../axios-orders'; //this would be to keep the errors, not done though
 import Input from '../../../components/UI/Forms/Input/Input'
+import * as actionCreators from '../../../store/actions/actionCreators';
+
 
 import { connect } from 'react-redux';
 
@@ -100,13 +102,12 @@ class ContactData extends React.Component {
     //event object is here not to reload the form as expected.
     orderHandler = (event) => {
         
-        const { ings, tPrice } = this.props;
+        const { ings, tPrice , onSaveOrder } = this.props;
         const { orderForm } = this.state;
 
         console.log(tPrice);
         event.preventDefault();
-        this.setState({ loading: true })
-        
+               
         const formData = {};
         for (let id in orderForm ) { 
             formData[id]= orderForm[id].value
@@ -118,14 +119,8 @@ class ContactData extends React.Component {
             price: tPrice,
             orderData: formData
         }
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({ loading: false })
-                this.props.history.push('/')
-            })
-            .catch(error => {
-                this.setState({ loading: false })
-            })
+       
+        onSaveOrder(order)
     }
 
    
@@ -228,5 +223,11 @@ const mapStateToProps = state => {
         tPrice: state.totalPrice,
     };
 };
+
+const mapDispatchToProps = dispatch => {
+    return { 
+        onSaveOrder: (orderData) => dispatch (actionCreators.purchaseBurguerStarter(orderData))
+    }
+}
 
 export default connect(mapStateToProps)(ContactData); 
