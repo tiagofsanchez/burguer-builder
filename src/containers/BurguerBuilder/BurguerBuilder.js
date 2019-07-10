@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from '../../axios-orders';
+
 
 import Aux from '../../hoc/Aux/Aux'
 import Burger from '../../components/Burger/Burger';
@@ -8,6 +8,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../axios-orders';
 
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/actionCreators';
@@ -17,20 +18,12 @@ class BurgerBuilder extends React.Component {
 
     state = {
         purchasing: false,
-        loadingOrder: false,
-        error: false, 
     }
 
     
     componentDidMount () { 
         console.log(this.props);
-       /*  axios.get('https://react-my-burger-c9843.firebaseio.com/ingredients.json')
-            .then (resp => {
-                this.setState({ingredients: resp.data})
-            })
-            .catch(error => {
-                this.setState({error: true })
-            })   */
+        this.props.onInitIngredients();
     }
 
     updadtePurchasable = (ingredients) => {
@@ -64,8 +57,8 @@ class BurgerBuilder extends React.Component {
 
     render() {
 
-        const { purchasable, purchasing } = this.state;
-        const { ings , onIngredientAdded , onIngredientRemoved , tPrice } = this.props;
+        const { purchasing } = this.state;
+        const { ings , onIngredientAdded , onIngredientRemoved , tPrice , err } = this.props;
 
         /* passa informacao para quando temos que disabled os botoes. em primeiro lugar copia e depois altera e passar essa informacao */
         const disableInfo = {
@@ -81,9 +74,7 @@ class BurgerBuilder extends React.Component {
             disableModel={this.purchaseHandler}
             continuePurchase={this.purchaseContinueHandler}
             price={tPrice} />
-            if (this.state.loadingOrder) {
-                oderSummary = <Spinner />
-            }
+           
 
 
         /* Will only show modal if I need. No animation */
@@ -95,7 +86,7 @@ class BurgerBuilder extends React.Component {
                 </Modal>)
         }
 
-        let burger = this.state.error ? <p>ingredients can't be loaded</p> : <Spinner/>; 
+        let burger = err ? <p>ingredients can't be loaded</p> : <Spinner/>; 
         if (ings) {
             burger = 
             <Aux>
@@ -124,13 +115,15 @@ const mapStateToProps = state => {
     return { 
         ings: state.ingredients,
         tPrice: state.totalPrice,
+        err: state.error,
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch (actionCreators.addIngredients(ingName)),
-        onIngredientRemoved: (ingName) => dispatch (actionCreators.delIngredients(ingName))
+        onIngredientRemoved: (ingName) => dispatch (actionCreators.delIngredients(ingName)),
+        onInitIngredients: () => dispatch (actionCreators.iniIngridients()),
     }
 }
 

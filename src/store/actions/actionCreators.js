@@ -1,6 +1,7 @@
 export { 
     addIngredients,
-    delIngredients
+    delIngredients,
+    iniIngridients
 } from './burguerBuilder';
 
 export {} from './order';
