@@ -10,13 +10,16 @@ import thunk from 'redux-thunk';
 
 import './index.css';
 import App from './App';
-import burguerBuilder from './store/reducers/burguerBuilder';
-import order from './store/reducers/order';
+import burguerBuilderReducer from './store/reducers/burguerBuilder';
+import orderReducer from './store/reducers/order';
 import * as serviceWorker from './serviceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 
-const rootReducer = combineReducers({ burg: burguerBuilder, ordr: order })
+const rootReducer = combineReducers({ 
+    burguerBuilder: burguerBuilderReducer, 
+    order: orderReducer 
+})
 
 const store = createStore(rootReducer ,composeEnhancers(applyMiddleware(thunk)));
 

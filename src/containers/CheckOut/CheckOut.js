@@ -5,6 +5,8 @@ import { Route , Redirect } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 
 import { connect } from 'react-redux';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Axios from 'axios';
 
 class CheckOut extends React.Component { 
 
@@ -42,8 +44,8 @@ class CheckOut extends React.Component {
 
 const mapStateToProps = state => { 
     return {
-        ings: state.burg.ingredients,
+        ings: state.burguerBuilder.ingredients,
     };
 };
 
-export default connect(mapStateToProps)(CheckOut);
+export default connect(mapStateToProps)(withErrorHandler(CheckOut, Axios));
