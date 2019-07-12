@@ -95,7 +95,7 @@ class ContactData extends React.Component {
                 validation: {} //this object exists for the validation to run properly!
             },
         },
-        loading: false,
+       
         formisValid: false,
     }
 
@@ -178,7 +178,8 @@ class ContactData extends React.Component {
 
     render() {
 
-        const { loading, orderForm , formisValid } = this.state;
+        const { orderForm , formisValid } = this.state;
+        const { loading } = this.props;
 
         //Looping through the state to create a dymanic form, that I can create somehting very easily for next projects.
         //this needs to be an array so that we can loop through using .map(); and array of objects
@@ -219,15 +220,16 @@ class ContactData extends React.Component {
 
 const mapStateToProps = state => { 
     return { 
-        ings: state.ingredients,
-        tPrice: state.totalPrice,
+        ings: state.burg.ingredients,
+        tPrice: state.burg.totalPrice,
+        loading: state.ordr.loading,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return { 
-        onSaveOrder: (orderData) => dispatch (actionCreators.purchaseBurguerStarter(orderData))
+        onSaveOrder: (orderData) => dispatch (actionCreators.purchaseBurguer(orderData))
     }
 }
 
-export default connect(mapStateToProps)(ContactData); 
+export default connect(mapStateToProps , mapDispatchToProps )(ContactData); 

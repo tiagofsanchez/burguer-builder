@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 //ROUTER
 import { BrowserRouter } from 'react-router-dom'
 //REDUX
-import { createStore , applyMiddleware , compose } from 'redux';
+import { createStore , applyMiddleware , compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
@@ -11,11 +11,14 @@ import thunk from 'redux-thunk';
 import './index.css';
 import App from './App';
 import burguerBuilder from './store/reducers/burguerBuilder';
+import order from './store/reducers/order';
 import * as serviceWorker from './serviceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 
-const store = createStore(burguerBuilder ,composeEnhancers(applyMiddleware(thunk)));
+const rootReducer = combineReducers({ burg: burguerBuilder, ordr: order })
+
+const store = createStore(rootReducer ,composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
     <Provider store={store}>
