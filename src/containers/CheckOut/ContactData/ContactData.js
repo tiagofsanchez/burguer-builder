@@ -7,7 +7,7 @@ import mystyle from './ContactData.module.css';
 import axios from '../../../axios-orders'; //this would be to keep the errors, not done though
 import Input from '../../../components/UI/Forms/Input/Input'
 import * as actionCreators from '../../../store/actions/actionCreators';
-
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 import { connect } from 'react-redux';
 
@@ -90,7 +90,7 @@ class ContactData extends React.Component {
                         [{ value: 'fastest', displayValue: 'Fastest' },
                         { value: 'cheapest', displayValue: 'Cheapest' }]
                 },
-                value: '',
+                value: 'fastest',
                 valid:true,
                 validation: {} //this object exists for the validation to run properly!
             },
@@ -105,7 +105,7 @@ class ContactData extends React.Component {
         const { ings, tPrice , onSaveOrder } = this.props;
         const { orderForm } = this.state;
 
-        console.log(tPrice);
+        console.log(tPrice); 
         event.preventDefault();
                
         const formData = {};
@@ -232,4 +232,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps , mapDispatchToProps )(ContactData); 
+export default connect(mapStateToProps , mapDispatchToProps )(withErrorHandler(ContactData , axios)); 

@@ -5,12 +5,15 @@ import { Route , Redirect } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 
 import { connect } from 'react-redux';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import Axios from 'axios';
+import * as actionCreators from '../../store/actions/actionCreators';
+
 
 class CheckOut extends React.Component { 
 
-    
+    componentWillMount () {
+        this.props.onPurchaseInit ()
+    }
+
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     } 
@@ -23,11 +26,14 @@ class CheckOut extends React.Component {
     //here this will be super important for 
     render () { 
         
-        const { ings } = this.props;
+        const { ings , purchased } = this.props;
+        
         let summary = <Redirect to='/' />
         if (ings) { 
+            const redirectAfter = purchased ? <Redirect to='/'/> : null;
             summary = 
             <div>
+                {redirectAfter}
                 <CheckOutSummary 
                     ingredients={ings}
                     onCheckoutCancelled={this.checkoutCancelledHandler}
@@ -45,7 +51,14 @@ class CheckOut extends React.Component {
 const mapStateToProps = state => { 
     return {
         ings: state.burguerBuilder.ingredients,
+        purchased: state.order.purchased,
     };
 };
 
-export default connect(mapStateToProps)(withErrorHandler(CheckOut, Axios));
+const mapDispatchToProps = dispatch => { 
+    return { 
+        onPurchaseInit: () => dispatch (actionCreators.purchaseInit())
+    }
+}
+
+export default connect(mapStateToProps , mapDispatchToProps )(CheckOut);
