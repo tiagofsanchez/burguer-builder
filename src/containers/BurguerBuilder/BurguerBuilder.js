@@ -24,8 +24,14 @@ class BurgerBuilder extends React.Component {
     componentDidMount () { 
         console.log(this.props);
         this.props.onInitIngredients();
+        console.log(this.props.ings)
+        //testing my assync code to see if this is working...and it is not!
+        this.props.onTestingOrders();
+        console.log(this.props.orders)
+
     }
 
+    
     updadtePurchasable = (ingredients) => {
 
         const sum = Object.keys(ingredients)
@@ -116,6 +122,8 @@ const mapStateToProps = state => {
         ings: state.burguerBuilder.ingredients,
         tPrice: state.burguerBuilder.totalPrice,
         err: state.burguerBuilder.error,
+        //try to understand if this assync works up on DidMount
+        orders: state.order.orders,
     };
 }
 
@@ -124,6 +132,8 @@ const mapDispatchToProps = dispatch => {
         onIngredientAdded: (ingName) => dispatch (actionCreators.addIngredients(ingName)),
         onIngredientRemoved: (ingName) => dispatch (actionCreators.delIngredients(ingName)),
         onInitIngredients: () => dispatch (actionCreators.iniIngridients()),
+        onTestingOrders: () => dispatch (actionCreators.downloadOrders())
+
     }
 }
 

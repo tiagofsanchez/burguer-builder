@@ -4,38 +4,19 @@ import Order from '../Order/Order';
 import axios from '../../axios-orders';
 import Spinner from '../UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions/actionCreators';
 
 
 class Orders extends React.Component {
 
-    state = {
-        orders: [],
-        loading: true,
-    }
-
     componentDidMount() {
-        axios.get('/orders.json')
-            .then(response => {
-                const fetchData = [];
-                for (let key in response.data) {
-                    fetchData.push({
-                        id:key,
-                        ...response.data[key],
-                         })
-                }
-                this.setState({ loading: false , orders: fetchData});
-                console.log(this.state.orders)
-            })
-            .catch(err => {
-                this.setState({ loading: false });
-            })
-            
-            
+        this.props.onInitOrders()
     }
 
     render() {
 
-        const { loading , orders } = this.state;
+        const { loading , orders } = this.props;
 
         let order =
             <div>
@@ -59,4 +40,18 @@ class Orders extends React.Component {
     }
 }
 
-export default withErrorHandler (Orders , axios); 
+const mapStateToProps = state => { 
+    return { 
+        orders: state.order.orders,
+        loading: state.order.loading
+    };
+};
+
+const mapDispatchToProps = dispatch => { 
+    return { 
+        onInitOrders: () => dispatch (actionCreators.downloadOrders())
+    }
+}
+
+
+export default connect(mapStateToProps , mapDispatchToProps )(withErrorHandler (Orders , axios)); 

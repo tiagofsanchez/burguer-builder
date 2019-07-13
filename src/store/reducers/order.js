@@ -38,8 +38,20 @@ const order = (state = initState , action ) => {
             return {
                 ...state, 
                 loading: false,
-        
+    
             };
+        case actionTypes.DOWLOAD_ORDERS_FAIL: 
+            return { 
+                ...state, 
+                loading: false,
+            }; 
+        case actionTypes.DOWLOAD_ORDERS_SUCESS: 
+            console.log(action.orders)
+            return { 
+                ...state, 
+                loading: false, 
+                orders: action.orders,
+            }
             
         default: 
             return {};
