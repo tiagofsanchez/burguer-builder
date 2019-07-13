@@ -20,17 +20,14 @@ class BurgerBuilder extends React.Component {
         purchasing: false,
     }
 
-    
     componentDidMount () { 
         console.log(this.props);
         this.props.onInitIngredients();
         console.log(this.props.ings)
-        //testing my assync code to see if this is working...and it is not!
+        //testing my assync code to see if this is working...and it is seems that it is
         this.props.onTestingOrders();
         console.log(this.props.orders)
-
     }
-
     
     updadtePurchasable = (ingredients) => {
 

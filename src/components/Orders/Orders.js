@@ -12,6 +12,7 @@ class Orders extends React.Component {
 
     componentDidMount() {
         this.props.onInitOrders()
+        console.log(this.props.orders)
     }
 
     render() {
@@ -20,13 +21,13 @@ class Orders extends React.Component {
 
         let order =
             <div>
-                {orders.map(order => (
+                {orders? orders.map(order => (
                     <Order 
                         ingredients={order.ingredients}
                         price={+order.price}
                         key={order.id} 
                         />
-                ))}
+                )) : null }
             </div>
         if (loading) { 
             order = <Spinner />
