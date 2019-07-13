@@ -45,14 +45,20 @@ export const purchaseInit = () => {
 };
 
 //DOWLOADING ORDERS FROM OUR BACKEND
-export const downloadOrdersSuccess = (orders) => {
+const downloadOrdersInit = () => {
+    return {
+        type: actionTypes.DOWLOAD_ORDERS_INIT
+    };
+}
+
+const downloadOrdersSuccess = (orders) => {
     return {
         type: actionTypes.DOWLOAD_ORDERS_SUCESS,
         orders: orders,
     };
 }
 
-export const downloadOrdersFail = (error) => {
+const downloadOrdersFail = (error) => {
     return {
         type: actionTypes.DOWLOAD_ORDERS_FAIL,
         error: error
@@ -61,6 +67,7 @@ export const downloadOrdersFail = (error) => {
 
 export const downloadOrders = () => {
     return dispatch => {
+        dispatch(downloadOrdersInit());
         axios.get('/orders.json')
             .then(response => {
                 console.log('[ORDERS_SUCCESS]')

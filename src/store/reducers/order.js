@@ -40,6 +40,12 @@ const order = (state = initState , action ) => {
                 loading: false,
     
             };
+
+        case actionTypes.DOWLOAD_ORDERS_INIT: 
+            return { 
+                ...state, 
+                loading: true,
+            };    
         case actionTypes.DOWLOAD_ORDERS_FAIL: 
             return { 
                 ...state, 
