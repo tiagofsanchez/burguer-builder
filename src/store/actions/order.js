@@ -29,10 +29,11 @@ export const purchaseBurguer = (orderData) => {
         dispatch(purchaseBurguerStart());
         axios.post('/orders.json', orderData)
             .then(response => {
-                console.log(response.data);
+                console.log('[AC PURCHASE_BURGER_SUCESS]');
                 dispatch(purchaseBurguerSuccess(response.data.name, orderData));
             })
             .catch(error => {
+                console.log('[AC PURCHASE_BURGER_FAIL]');
                 dispatch(purchaseBurguerFail(error));
             });
     };
@@ -70,7 +71,7 @@ export const downloadOrders = () => {
         dispatch(downloadOrdersInit());
         axios.get('/orders.json')
             .then(response => {
-                console.log('[ORDERS_SUCCESS]')
+                console.log('AC[ORDERS_SUCCESS]')
                 const fetchData = [];
                 for (let key in response.data) {
                     fetchData.push({
@@ -82,7 +83,7 @@ export const downloadOrders = () => {
                 dispatch(downloadOrdersSuccess(fetchData));
             })
             .catch(err => {
-                console.log('[ORDERS_FAIL]')
+                console.log('AC[ORDERS_FAIL]')
                 dispatch(downloadOrdersFail(err));
             });
     }

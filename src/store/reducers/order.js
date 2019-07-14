@@ -27,6 +27,7 @@ const order = (state = initState , action ) => {
                 ...action.orderData, 
                 id: action.orderId
             }
+            console.log('[RE PURCHASE_BURGER_SUCESS]')
             return {
                 ...state, 
                 loading: false,
@@ -35,24 +36,26 @@ const order = (state = initState , action ) => {
             };
 
         case actionTypes.PURCHASE_BURGER_FAIL: 
+            console.log('[RE PURCHASE_BURGER_SUCESS]')
             return {
                 ...state, 
                 loading: false,
-    
             };
 
         case actionTypes.DOWLOAD_ORDERS_INIT: 
+            
             return { 
                 ...state, 
                 loading: true,
             };    
         case actionTypes.DOWLOAD_ORDERS_FAIL: 
+            console.log('RE[ORDERS_FAIL]')
             return { 
                 ...state, 
                 loading: false,
             }; 
-        case actionTypes.DOWLOAD_ORDERS_SUCESS: 
-            console.log(action.orders)
+        case actionTypes.DOWLOAD_ORDERS_SUCESS:
+            console.log('RE[ORDERS_SUCCESS]')
             return { 
                 ...state, 
                 loading: false, 
