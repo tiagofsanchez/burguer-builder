@@ -41,36 +41,37 @@ class Auth extends React.Component {
                 valid: false,
                 touched: false
             },
-        }
+        },
+        isSignup: true, 
     }
 
 
-    checkValidity(value, rules) {
+    checkValidity ( value, rules ) {
         let isValid = true;
-        if (!rules) {
+        if ( !rules ) {
             return true;
         }
-        
-        if (rules.required) {
+
+        if ( rules.required ) {
             isValid = value.trim() !== '' && isValid;
         }
 
-        if (rules.minLength) {
+        if ( rules.minLength ) {
             isValid = value.length >= rules.minLength && isValid
         }
 
-        if (rules.maxLength) {
+        if ( rules.maxLength ) {
             isValid = value.length <= rules.maxLength && isValid
         }
 
-        if (rules.isEmail) {
+        if ( rules.isEmail ) {
             const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            isValid = pattern.test(value) && isValid
+            isValid = pattern.test( value ) && isValid
         }
 
-        if (rules.isNumeric) {
+        if ( rules.isNumeric ) {
             const pattern = /^\d+$/;
-            isValid = pattern.test(value) && isValid
+            isValid = pattern.test( value ) && isValid
         }
 
         return isValid;
@@ -96,21 +97,30 @@ class Auth extends React.Component {
 
     submitHandler = (event) => { 
         
-        const { controls } = this.state;
+        const { controls , isSignup } = this.state;
         const { onAuth } = this.props;
 
         event.preventDefault();
-        onAuth(controls.email.value , controls.password.value);
+        onAuth(controls.email.value , controls.password.value , isSignup );
 
     }
+
+     switchSingInAuthHandler = () => { 
+         this.setState({
+             ...this.state,
+             isSignup: !this.state.isSignup
+         })
+     }  
     
     render () { 
 
+        const { controls , isSignup } = this.state
+
         const formElementsArray = [];
-        for (let key in this.state.controls) {
+        for (let key in controls) {
             formElementsArray.push({
                 id: key,
-                config: this.state.controls[key]
+                config: controls[key]
             });
         }
 
@@ -128,11 +138,16 @@ class Auth extends React.Component {
 
 
         return (
+
             <div className={mystyle.Auth}> 
                 <form onSubmit={this.submitHandler}> 
                     {form}
                     <Button btnType='Success'>SUBMIT</Button>    
                 </form>
+                <Button
+                    btnType='Danger'
+                    clicked={this.switchSingInAuthHandler}>
+                    SWITCH TO {isSignup ? 'SINGIN' : 'SINGUP'}</Button>
             </div>
         )
     }
@@ -140,7 +155,7 @@ class Auth extends React.Component {
 
 const mapDispatchToProps = dispatch => { 
     return { 
-        onAuth: ( email, password ) => dispatch(actionCreators.auth(email, password))
+        onAuth: ( email, password , isSignup ) => dispatch(actionCreators.auth(email, password, isSignup))
     }
 }
 
