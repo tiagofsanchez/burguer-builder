@@ -3,6 +3,7 @@ import React from 'react';
 import mystyle from './Auth.module.css';
 import Input from '../../components/UI/Forms/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import * as actionCreators from '../../store/actions/actionCreators';
 import { connect } from 'react-redux';
@@ -114,7 +115,10 @@ class Auth extends React.Component {
     
     render () { 
 
-        const { controls , isSignup } = this.state
+        const { controls , isSignup } = this.state;
+        const { loading } = this.props;
+
+        
 
         const formElementsArray = [];
         for (let key in controls) {
@@ -124,17 +128,22 @@ class Auth extends React.Component {
             });
         }
 
-        let form = formElementsArray.map(formElement => (
-            <Input 
-                key={formElement.id}
-                elementType={formElement.config.elementType}
-                elementConfig={formElement.config.elementConfig}
-                value={formElement.config.value}
-                invalid={!formElement.config.valid}
-                shouldValidate={formElement.config.validation}
-                touched={formElement.config.touched}
-                changed={(event) => this.inputChangedHandler(event, formElement.id)} />
-        ))
+        let form = null;
+        if (loading) {
+            form = <Spinner />
+        } else { 
+            form = formElementsArray.map(formElement => (
+                <Input
+                    key={formElement.id}
+                    elementType={formElement.config.elementType}
+                    elementConfig={formElement.config.elementConfig}
+                    value={formElement.config.value}
+                    invalid={!formElement.config.valid}
+                    shouldValidate={formElement.config.validation}
+                    touched={formElement.config.touched}
+                    changed={(event) => this.inputChangedHandler(event, formElement.id)} />
+            ))
+        }
 
 
         return (
@@ -153,6 +162,13 @@ class Auth extends React.Component {
     }
 }
 
+
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading
+    }
+}
+
 const mapDispatchToProps = dispatch => { 
     return { 
         onAuth: ( email, password , isSignup ) => dispatch(actionCreators.auth(email, password, isSignup))
@@ -160,4 +176,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(null , mapDispatchToProps)(Auth); 
+export default connect(mapStateToProps , mapDispatchToProps)(Auth); 
