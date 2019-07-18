@@ -116,7 +116,7 @@ class Auth extends React.Component {
     render () { 
 
         const { controls , isSignup } = this.state;
-        const { loading } = this.props;
+        const { loading , error } = this.props;
 
         
 
@@ -145,10 +145,15 @@ class Auth extends React.Component {
             ))
         }
 
+        let errorMessage = null; 
+        if (error) { 
+            errorMessage= <p>error.message</p>
+        }
 
         return (
 
             <div className={mystyle.Auth}> 
+                {error}
                 <form onSubmit={this.submitHandler}> 
                     {form}
                     <Button btnType='Success'>SUBMIT</Button>    
@@ -165,7 +170,8 @@ class Auth extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.auth.loading
+        loading: state.auth.loading, 
+        error: state.auth.error
     }
 }
 
