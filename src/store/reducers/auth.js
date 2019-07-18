@@ -25,13 +25,20 @@ const reducer = (state = initialState, action) => {
                 userId: action.userId,
             }
         case actionTypes.AUTH_FAIL: 
-            console.log(action.error)
             return { 
                 ...state, 
                 loading:false,
                 error: action.error
             }
-        
+        case actionTypes.AUTH_LOGOUT:
+            return { 
+                ...state, 
+                token: null, 
+                userId: null, 
+                loading: false, 
+                error:null,
+            }
+
         default:
             return state;
     }

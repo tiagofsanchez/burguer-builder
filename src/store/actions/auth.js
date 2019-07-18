@@ -24,6 +24,23 @@ const authFail = (error) => {
     };
 }
 
+
+const authAutoLogOut = () => { 
+    return { 
+        type: actionTypes.AUTH_LOGOUT
+    }
+}
+
+//we needed to use disptach here so that we can usea ASYNC code 
+const checkAuthTimeout = (expTime) => { 
+   return disptach => {
+       setTimeout(() => {
+            disptach(authAutoLogOut())
+       }, expTime * 1000)
+
+    }
+}
+
 export const auth = (email, password, isSignup) => {
     return dispatch => {
         dispatch(authStart());
@@ -40,6 +57,7 @@ export const auth = (email, password, isSignup) => {
             .then(response => {
                 console.log(response);
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
+                dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(err => {
                 console.log(err.response)
