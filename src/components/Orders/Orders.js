@@ -11,7 +11,7 @@ import * as actionCreators from '../../store/actions/actionCreators';
 class Orders extends React.Component {
 
     componentDidMount() {
-        this.props.onInitOrders()
+        this.props.onInitOrders(this.props.token)
         console.log(this.props.orders)
     }
 
@@ -44,13 +44,14 @@ class Orders extends React.Component {
 const mapStateToProps = state => { 
     return { 
         orders: state.order.orders,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => { 
     return { 
-        onInitOrders: () => dispatch (actionCreators.downloadOrders())
+        onInitOrders: (token) => dispatch (actionCreators.downloadOrders(token))
     }
 }
 

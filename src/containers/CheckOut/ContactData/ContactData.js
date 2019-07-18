@@ -102,7 +102,7 @@ class ContactData extends React.Component {
     //event object is here not to reload the form as expected.
     orderHandler = (event) => {
         
-        const { ings, tPrice , onSaveOrder } = this.props;
+        const { ings, tPrice , onSaveOrder , token } = this.props;
         const { orderForm } = this.state;
 
         console.log(tPrice); 
@@ -120,7 +120,7 @@ class ContactData extends React.Component {
             orderData: formData
         }
        
-        onSaveOrder(order)
+        onSaveOrder(order , token )
     }
 
    
@@ -223,12 +223,13 @@ const mapStateToProps = state => {
         ings: state.burguerBuilder.ingredients,
         tPrice: state.burguerBuilder.totalPrice,
         loading: state.order.loading,
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return { 
-        onSaveOrder: (orderData) => dispatch (actionCreators.purchaseBurguer(orderData))
+        onSaveOrder: ( orderData , token ) => dispatch (actionCreators.purchaseBurguer(orderData, token ))
     }
 }
 

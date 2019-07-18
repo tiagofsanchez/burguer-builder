@@ -24,10 +24,11 @@ export const purchaseBurguerStart = () => {
     };
 };
 
-export const purchaseBurguer = (orderData) => {
+//tenho que utilizar os queryparams para fazer com que a informacao seja guardada para 1 determindao utilizador
+export const purchaseBurguer = (orderData , token ) => {
     return dispatch => {
         dispatch(purchaseBurguerStart());
-        axios.post('/orders.json', orderData)
+        axios.post('/orders.json?auth='+ token, orderData)
             .then(response => {
                 console.log('[AC PURCHASE_BURGER_SUCESS]');
                 dispatch(purchaseBurguerSuccess(response.data.name, orderData));
@@ -65,11 +66,11 @@ const downloadOrdersFail = (error) => {
         error: error
     };
 }
-
-export const downloadOrders = () => {
+//orders will only be dispatched if the user is authenticated and as a token so that you coudl actually render the user orders
+export const downloadOrders = (token) => {
     return dispatch => {
         dispatch(downloadOrdersInit());
-        axios.get('/orders.json')
+        axios.get('/orders.json?auth=' + token)
             .then(response => {
                 console.log('AC[ORDERS_SUCCESS]')
                 const fetchData = [];

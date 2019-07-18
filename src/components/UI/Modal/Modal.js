@@ -6,6 +6,7 @@ import Aux from '../../../hoc/Aux/Aux';
 
 const modal = (props) => {
 
+    
     const { disableModel } = props; 
     return (
         <div>
