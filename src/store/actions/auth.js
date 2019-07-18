@@ -43,7 +43,7 @@ export const auth = (email, password, isSignup) => {
             })
             .catch(err => {
                 console.log(err.response)
-                dispatch(authFail(err.response.data.message));
+                dispatch(authFail(err.response.data.error.message));
             });
     };
 };
