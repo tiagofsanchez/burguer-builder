@@ -6,44 +6,49 @@ import classes from './Layout.module.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
+import { connect } from 'react-redux'
+
 
 class Layout extends React.Component {
-    state = { 
+    state = {
         showSideDrawer: false
     }
-    
+
     SideDrawerClosedHandler = () => {
         this.setState({
             showSideDrawer: !this.state.showSideDrawer
         })
-    } 
+    }
 
     SideDrawerOpenHandler = () => {
-        this.setState ((prevState) => {
-            return ({showSideDrawer: !prevState.showSideDrawer})
+        this.setState((prevState) => {
+            return ({ showSideDrawer: !prevState.showSideDrawer })
         })
     }
-    
-    render () {
-        
-        const { children } = this.props;
+
+    render() {
+
+        const { children , isAuthenticated } = this.props;
         const { showSideDrawer } = this.state;
-        
-        let sideDrawer = null; 
+
+        let sideDrawer = null;
         if (showSideDrawer) {
             sideDrawer = (
-            <Aux>
-                <SideDrawer  
-                    close={this.SideDrawerClosedHandler}
-                    open={showSideDrawer}
+                <Aux>
+                    <SideDrawer
+                        close={this.SideDrawerClosedHandler}
+                        open={showSideDrawer}
+                        isAuth={isAuthenticated}
                     />
-            </Aux>
+                </Aux>
             )
         }
 
         return (
             <Aux>
-                <Toolbar clicked={this.SideDrawerOpenHandler}/>
+                <Toolbar
+                    clicked={this.SideDrawerOpenHandler} 
+                    isAuth={isAuthenticated}/>
                 {sideDrawer}
                 <main className={classes.Content}>
                     {children}
@@ -51,26 +56,14 @@ class Layout extends React.Component {
             </Aux>
         )
 
-        
+
     }
 }
 
-export default Layout;
+const mapStateToProsp = state => {
+    return {
+        isAuthenticated: state.auth.token !== null,
+    }
+}
 
-
-
-/* ###
-This was a functional component before we changed to become a class. 
-We did that for the component to have state and a method that would change the SideDrawer by the ToolBar button 
-###
-
-const layout = (props) => (
-    <Aux>
-        <Toolbar />
-        <SideDrawer />
-        <main className ={classes.Content}>
-            {props.children}
-        </main>
-    </Aux>
-);
- */
+export default connect(mapStateToProsp)(Layout);

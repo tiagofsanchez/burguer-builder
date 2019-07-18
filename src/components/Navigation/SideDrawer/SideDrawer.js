@@ -15,7 +15,7 @@ const sideDrawer = (props) => {
     }
 
 
-    const { close } = props
+    const { close , isAuth } = props
     return (
         <Aux>
             <div className={attachedClasses.join(' ')} >
@@ -23,7 +23,7 @@ const sideDrawer = (props) => {
                     <Logo />
                 </div>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuth={isAuth}/>
                 </nav>
             </div>
             <div className={classes.Backdrop}>
