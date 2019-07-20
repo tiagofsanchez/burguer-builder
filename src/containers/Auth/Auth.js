@@ -155,7 +155,7 @@ class Auth extends React.Component {
         let authRedirect = null
         if (isAuth && building) { 
             authRedirect = <Redirect to='/checkout'/>
-        } else if (isAuth) {
+        } else if (isAuth) { 
             authRedirect = <Redirect to='/' /> 
         }
 

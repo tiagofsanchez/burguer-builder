@@ -8,8 +8,15 @@ import Orders from './components/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 
+import * as actionCreators from './store/actions/actionCreators';
+import { connect } from 'react-redux'
+
 
 class App extends Component {
+  
+  componentDidMount () {
+    this.props.onCheckAuth()
+  }
   
   render() {
    
@@ -27,4 +34,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProsp = dispatch => { 
+  return { 
+    onCheckAuth: () => dispatch (actionCreators.authCheckState())
+  }
+}
+
+export default connect(null , mapDispatchToProsp )(App);
