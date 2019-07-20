@@ -1,3 +1,6 @@
+//This is a very elegant way to change the state to Logout of the application and for
+//redirecting the user to the main page whenever he is logs out of the app
+
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import mystyle from './Auth.module.css';
 import Input from '../../components/UI/Forms/Input/Input';
@@ -116,7 +117,7 @@ class Auth extends React.Component {
     render () { 
 
         const { controls , isSignup } = this.state;
-        const { loading , error } = this.props;
+        const { loading , error , isAuth } = this.props;
 
         
 
@@ -150,9 +151,16 @@ class Auth extends React.Component {
             errorMessage= <p>error.message</p>
         }
 
+        //Simplest way to redirect  
+        let authRedirect = null
+        if (isAuth) { 
+            authRedirect = <Redirect to='/'/>
+        }
+
         return (
 
             <div className={mystyle.Auth}> 
+                {authRedirect}
                 {error}
                 <form onSubmit={this.submitHandler}> 
                     {form}
@@ -171,7 +179,8 @@ class Auth extends React.Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading, 
-        error: state.auth.error
+        error: state.auth.error,
+        isAuth: state.auth.token !== null ,
     }
 }
 
