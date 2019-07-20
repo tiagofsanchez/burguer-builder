@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import Aux from '../../hoc/Aux/Aux'
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -45,9 +44,15 @@ class BurgerBuilder extends React.Component {
     
     purchaseHandler = () => {
         const { purchasing } = this.state;
+        const { isAuth } = this.props;
+
+        if ( isAuth ) {
         this.setState({
             purchasing: !purchasing
-        })
+        })} 
+        else { 
+            this.props.history.push('/auth'); 
+        }
     }
 
    
@@ -61,7 +66,7 @@ class BurgerBuilder extends React.Component {
     render() {
 
         const { purchasing } = this.state;
-        const { ings , onIngredientAdded , onIngredientRemoved , tPrice , err } = this.props;
+        const { ings , onIngredientAdded , onIngredientRemoved , tPrice , err , isAuth } = this.props;
 
         /* passa informacao para quando temos que disabled os botoes. em primeiro lugar copia e depois altera e passar essa informacao */
         const disableInfo = {
@@ -101,6 +106,7 @@ class BurgerBuilder extends React.Component {
                 price={tPrice}
                 purchasable={!this.updadtePurchasable(ings)}
                 enableModal={this.purchaseHandler}
+                isAuth={isAuth}
             />
             </Aux>
         }
@@ -119,6 +125,7 @@ const mapStateToProps = state => {
         ings: state.burguerBuilder.ingredients,
         tPrice: state.burguerBuilder.totalPrice,
         err: state.burguerBuilder.error,
+        isAuth: state.auth.token !== null,
         //try to understand if this assync works up on DidMount
         orders: state.order.orders,
     };

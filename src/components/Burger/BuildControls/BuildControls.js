@@ -12,7 +12,7 @@ const controls = [
 
 const buildControls = (props) => {
 
-    const { addIngredient, deleteIngredient, disabled, price , purchasable , enableModal } = props;
+    const { addIngredient, deleteIngredient, disabled, price , purchasable , enableModal , isAuth } = props;
 
     return (
         <div className={classes.BuildControls}>
@@ -29,7 +29,7 @@ const buildControls = (props) => {
             <button
                 className={classes.OrderButton}
                 disabled={purchasable}
-                onClick={enableModal}>ORDER NOW</button>
+                onClick={enableModal}>{isAuth ? 'ORDER NOW': 'LOG IN TO ORDER'}</button>
         </div>
     )
 }
