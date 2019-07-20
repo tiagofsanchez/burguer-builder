@@ -6,6 +6,7 @@ import BurgerBuilder from './containers/BurguerBuilder/BurguerBuilder';
 import CheckOut from './containers/CheckOut/CheckOut';
 import Orders from './components/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout/Logout';
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
           <Route path='/' exact component={BurgerBuilder} />
           <Route path='/orders' exact component={Orders} />
           <Route path='/auth' exact component={Auth} />
+          <Route path='/logout' exact component={Logout} />
         </Layout>
       </div>
     );

@@ -25,7 +25,7 @@ const authFail = (error) => {
 }
 
 
-const authAutoLogOut = () => { 
+export const logOut = () => { 
     return { 
         type: actionTypes.AUTH_LOGOUT
     }
@@ -35,7 +35,7 @@ const authAutoLogOut = () => {
 const checkAuthTimeout = (expTime) => { 
    return disptach => {
        setTimeout(() => {
-            disptach(authAutoLogOut())
+            disptach(logOut())
        }, expTime * 1000)
 
     }
