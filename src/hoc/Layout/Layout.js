@@ -55,8 +55,6 @@ class Layout extends React.Component {
                 </main>
             </Aux>
         )
-
-
     }
 }
 

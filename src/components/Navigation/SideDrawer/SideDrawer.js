@@ -14,7 +14,6 @@ const sideDrawer = (props) => {
         attachedClasses = [classes.SideDrawer , classes.Open]
     }
 
-
     const { close , isAuth } = props
     return (
         <Aux>
@@ -31,7 +30,6 @@ const sideDrawer = (props) => {
             </div>
         </Aux>
     );
-
 };
 
 export default sideDrawer;
