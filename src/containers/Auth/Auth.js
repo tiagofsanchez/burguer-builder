@@ -117,7 +117,7 @@ class Auth extends React.Component {
     render () { 
 
         const { controls , isSignup } = this.state;
-        const { loading , error , isAuth } = this.props;
+        const { loading , error , isAuth , building } = this.props;
 
         
 
@@ -153,8 +153,10 @@ class Auth extends React.Component {
 
         //Simplest way to redirect  
         let authRedirect = null
-        if (isAuth) { 
-            authRedirect = <Redirect to='/'/>
+        if (isAuth && building) { 
+            authRedirect = <Redirect to='/checkout'/>
+        } else if (isAuth) {
+            authRedirect = <Redirect to='/' /> 
         }
 
         return (
@@ -180,7 +182,8 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading, 
         error: state.auth.error,
-        isAuth: state.auth.token !== null ,
+        building: state.burguerBuilder.building,
+        isAuth: state.auth.token !== null,
     }
 }
 
