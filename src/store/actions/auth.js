@@ -80,11 +80,13 @@ export const authCheckState = () => {
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
         if (!token) {
+            console.log('[NO_TOKEN ?]');
             dispatch(logOut());
         } else {
             const experationDate = new Date (localStorage.getItem('expireDate'))
             const dateNow = new Date();
             if (experationDate < dateNow ) {
+                console.log('[TIME_ISSUE ?]');
                 dispatch(logOut())
                 
             } else {
