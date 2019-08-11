@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route , Switch , withRouter , Redirect } from 'react-router-dom';
 
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurguerBuilder/BurguerBuilder';
@@ -20,17 +20,44 @@ class App extends Component {
   
   render() {
    
+    const { isAuth } = this.props;
+
+    let routes = (
+    
+        <Switch>
+        <Route path='/' exact component={BurgerBuilder} />
+        <Route path='/auth' exact component={Auth} />
+        <Redirect to='/'/>
+        </Switch>
+     
+    )
+
+    if (isAuth) {
+      routes = (
+        <Switch>
+          <Route path='/checkout' component={CheckOut} />
+          <Route path='/orders' exact component={Orders} />
+          <Route path='/logout' exact component={Logout} />
+          <Route path='/' exact component={BurgerBuilder} />
+          <Redirect to='/'/>
+        </Switch>
+
+      )
+    }
+
     return (
       <div >
         <Layout>
-          <Route path='/checkout' component={CheckOut} />
-          <Route path='/' exact component={BurgerBuilder} />
-          <Route path='/orders' exact component={Orders} />
-          <Route path='/auth' exact component={Auth} />
-          <Route path='/logout' exact component={Logout} />
+        {routes}
         </Layout>
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => { 
+  return { 
+    isAuth: state.auth.token !== null
   }
 }
 
@@ -40,4 +67,4 @@ const mapDispatchToProsp = dispatch => {
   }
 }
 
-export default connect(null , mapDispatchToProsp )(App);
+export default withRouter (connect(mapStateToProps , mapDispatchToProsp )(App));
