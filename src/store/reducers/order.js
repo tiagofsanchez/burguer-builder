@@ -36,7 +36,7 @@ const order = (state = initState , action ) => {
             };
 
         case actionTypes.PURCHASE_BURGER_FAIL: 
-            console.log('[RE PURCHASE_BURGER_SUCESS]')
+            console.log('[RE PURCHASE_BURGER_FAIL]')
             return {
                 ...state, 
                 loading: false,

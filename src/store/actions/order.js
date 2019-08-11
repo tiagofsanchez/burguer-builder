@@ -67,10 +67,11 @@ const downloadOrdersFail = (error) => {
     };
 }
 //orders will only be dispatched if the user is authenticated and as a token so that you coudl actually render the user orders
-export const downloadOrders = (token) => {
+export const downloadOrders = (token , userId) => {
     return dispatch => {
         dispatch(downloadOrdersInit());
-        axios.get('/orders.json?auth=' + token)
+        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+         axios.get('/orders.json' + queryParams )
             .then(response => {
                 console.log('AC[ORDERS_SUCCESS]')
                 const fetchData = [];

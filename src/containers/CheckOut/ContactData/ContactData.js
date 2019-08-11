@@ -102,7 +102,7 @@ class ContactData extends React.Component {
     //event object is here not to reload the form as expected.
     orderHandler = (event) => {
         
-        const { ings, tPrice , onSaveOrder , token } = this.props;
+        const { ings, tPrice , onSaveOrder , token , userId } = this.props;
         const { orderForm } = this.state;
 
         console.log(tPrice); 
@@ -117,9 +117,12 @@ class ContactData extends React.Component {
         const order = {
             ingredients: ings,
             price: tPrice,
-            orderData: formData
+            orderData: formData,
+            userId: userId
         }
-       
+
+        console.log(order)
+    
         onSaveOrder(order , token )
     }
 
@@ -223,7 +226,8 @@ const mapStateToProps = state => {
         ings: state.burguerBuilder.ingredients,
         tPrice: state.burguerBuilder.totalPrice,
         loading: state.order.loading,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId,
     };
 };
 
