@@ -17,7 +17,7 @@ const sideDrawer = (props) => {
     const { close , isAuth } = props
     return (
         <Aux>
-            <div className={attachedClasses.join(' ')} >
+            <div className={attachedClasses.join(' ')} onClick={close}>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>
