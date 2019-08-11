@@ -40,7 +40,6 @@ const checkAuthTimeout = (expTime) => {
        setTimeout(() => {
             disptach(logOut())
        }, expTime * 1000)
-
     }
 }
 
@@ -85,13 +84,13 @@ export const authCheckState = () => {
         } else {
             const experationDate = new Date (localStorage.getItem('expireDate'))
             const dateNow = new Date();
-            if (experationDate < dateNow ) {
+            if (experationDate <= dateNow ) {
                 console.log('[TIME_ISSUE ?]');
                 dispatch(logOut())
                 
             } else {
                 dispatch(authSuccess(token, userId))
-                dispatch(checkAuthTimeout(experationDate.getSeconds() - new Date().getSeconds()))
+                dispatch(checkAuthTimeout((experationDate.getTime() - new Date().getTime())/1000))
                  
             }
         }
